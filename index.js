@@ -25,6 +25,15 @@ const Users = mongoose.model('users', userSchema);
 // Initializing POST middleware
 app.use(express.json())
 
+// App homepage
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/public/routes.html')
+})
+
+// Redirect to postman if create link is used with a get request
+app.get('/users/register', (req, res) => {
+    res.status(200).json({message: "Kindly use postman to test this link."})
+})
 
 // Fetch users from database
 app.get('/users', (req, res) => {
@@ -60,7 +69,7 @@ app.post('/users/register', (req, res) => {
         if(err) {
             res.status(500).json({message: err.message})
         } else {
-            return res.status(200).json({message: 'New user added successfully'})
+            return res.status(200).json({message: 'New user added successfully', user: user})
         }
     })
     
@@ -79,11 +88,11 @@ app.put('/users/update/:id', (req, res) => {
         if(!user) {
             return res.status(400).json({message: 'User not found'})
         } else {
-            user.save((err, done) => {
+            user.save((err, data) => {
                 if(err) {
                     return res.status(500).json({message: err.message})
                 } else {
-                return res.status(200).json({message: 'New user added successfully'})
+                return res.status(200).json({message: 'New user updated successfully', user:data})
             }
             })
         }
@@ -99,7 +108,7 @@ app.delete('/users/delete/:id', (req, res) => {
         } if(!user) {
             return res.status(404).json({message:'User not found'})
         } else {
-            return res.status(200).json({message: 'User deleted successfully'})
+            return res.status(200).json({message: 'User deleted successfully', user:user})
         }
     })
     
