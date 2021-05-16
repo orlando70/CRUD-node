@@ -3,7 +3,7 @@ const app = express();
 const mongoose = require('mongoose');
 const {Schema} = mongoose;
 
-
+const PORT = process.env.PORT || 5000
 const connectionString = 'mongodb+srv://ogudoro1:ogudoro1@zuricrud.s1vju.mongodb.net/appDB?retryWrites=true&w=majority'
 
 mongoose.connect(connectionString, {
@@ -110,6 +110,6 @@ app.get('*', (req, res) => {
     return res.status(404).json({message: "Page not found"})
 })
 
-app.listen(5000, () => {
+app.listen(PORT, () => {
     console.log('server is running')
-})
+}) 
