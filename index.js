@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const {Schema} = mongoose;
 
 
-const connectionString = 'mongodb://localhost:27017/appDB'
+const connectionString = 'mongodb+srv://ogudoro1:ogudoro1@zuricrud.s1vju.mongodb.net/appDB?retryWrites=true&w=majority'
 
 mongoose.connect(connectionString, {
     useUnifiedTopology: true,
@@ -25,10 +25,6 @@ const Users = mongoose.model('users', userSchema);
 // Initializing POST middleware
 app.use(express.json())
 
-// Handling incorrect route
-app.get('*', (req, res) => {
-    return res.status(400).json({message: "Page not found"})
-})
 
 // Fetch users from database
 app.get('/users', (req, res) => {
@@ -107,6 +103,11 @@ app.delete('/users/delete/:id', (req, res) => {
         }
     })
     
+})
+
+// Handling invalid route
+app.get('*', (req, res) => {
+    return res.status(404).json({message: "Page not found"})
 })
 
 app.listen(5000, () => {
