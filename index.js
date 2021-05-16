@@ -39,7 +39,7 @@ app.get('/users/register', (req, res) => {
 app.get('/users', (req, res) => {
     Users.find({}, (err, user) => {
         if(err) {
-            res.status(500).json({message: err.message});
+            res.status(500).json({message: err});
         }
             return res.status(200).json({message: 'Successful', users: user})
     })
@@ -47,14 +47,14 @@ app.get('/users', (req, res) => {
 
 // Fetch one user from database
 app.get('/users/:id', (req, res) => {
-    Users.find({_id: req.params.id}, (err, user) => {
-        if(err) {
-            res.status(500).json({message: err.message});
+    Users.findById(req.params.id, (err, user) => {
+        if(!user) {
+            res.status(404).json({message: 'User not found'});
         }
-        if(user) {
-            return res.status(200).json({message: 'Successful', user: user})
+        if(err) {
+            return res.status(500).json({message: err})
         } else {
-            return res.status(404).json({message: 'User not found'})
+            return res.status(200).json({message: 'Successful', user: user})
         }
     })
 })
@@ -67,7 +67,7 @@ app.post('/users/register', (req, res) => {
         country: req.body.country
     }, (err, user) => {
         if(err) {
-            res.status(500).json({message: err.message})
+            res.status(500).json({message: err})
         } else {
             return res.status(200).json({message: 'New user added successfully', user: user})
         }
@@ -82,11 +82,11 @@ app.put('/users/update/:id', (req, res) => {
         email: req.body.email,
         country: req.body.country
     }, (err, user) => {
-        if(err) {
-            res.status(500).json({message: err.message})
-        }
         if(!user) {
-            return res.status(400).json({message: 'User not found'})
+            res.status(500).json({message: 'User not found'})
+        }
+        if(err) {
+            return res.status(400).json({message: err})
         } else {
             user.save((err, data) => {
                 if(err) {
@@ -103,10 +103,10 @@ app.put('/users/update/:id', (req, res) => {
 app.delete('/users/delete/:id', (req, res) => {
     Users.findOneAndDelete({_id: req.params.id}, 
         (err, user) => {
-        if(err) {
-            res.status(500).json({message: err.message})
-        } if(!user) {
-            return res.status(404).json({message:'User not found'})
+        if(!user) {
+            res.status(404).json({message: 'User not found'})
+        } if(err) {
+            return res.status(500).json({message: err})
         } else {
             return res.status(200).json({message: 'User deleted successfully', user:user})
         }
@@ -114,10 +114,6 @@ app.delete('/users/delete/:id', (req, res) => {
     
 })
 
-// Handling invalid route
-app.get('*', (req, res) => {
-    return res.status(404).json({message: "Page not found"})
-})
 
 app.listen(PORT, () => {
     console.log('server is running')
