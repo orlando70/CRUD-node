@@ -83,7 +83,7 @@ app.put('/users/update/:id', (req, res) => {
         country: req.body.country
     }, (err, user) => {
         if(!user) {
-            res.status(500).json({message: 'User not found'})
+            res.status(404).json({message: 'User not found'})
         }
         if(err) {
             return res.status(400).json({message: err})
