@@ -6,12 +6,23 @@ This is a simple express application that connects to database and performs CRUD
 https://crud-database-with-node.herokuapp.com/
 
 # App Routes
-Home page: https://crud-database-with-node.herokuapp.com/
+Register a new user: 
+Create
+POST - /create
+payload { "name": "string here", "email":"string here", "country": "string here" }
 
-Register a new user: http://crud-database-with-node.herokuapp.com/users/register
+Fetch a user: 
+Read
+findAll
+GET - /users
+FindOne
+GET - /user/id
 
-Fetch a single user: http://crud-database-with-node.herokuapp.com/users/:id
+Update existing user: 
+Update
+PUT - /update/id
+payload { "name": "string here", "email":"string here", "country": "string here" }
 
-Update existing user: http://crud-database-with-node.herokuapp.com/users/update/:id
-
-Delete existing user: http://crud-database-with-node.herokuapp.com/users/delete/:id
+Delete existing user: 
+Delete
+DELETE - /delete/id
