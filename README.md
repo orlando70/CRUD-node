@@ -8,21 +8,28 @@ https://crud-database-with-node.herokuapp.com/
 # App Routes
 Register a new user: 
 Create
-POST - /create
-payload { "name": "string here", "email":"string here", "country": "string here" }
-
-Fetch a user: 
+POST - /users/register,
+payload 
+{ "name",
+"email", 
+"country"
+}
+#
+Fetch all users: 
 Read
 findAll
 GET - /users
+#
+Fetch a user: 
+Read
 FindOne
-GET - /user/id
-
+GET - /users/id
+#
 Update existing user: 
 Update
-PUT - /update/id
-payload { "name": "string here", "email":"string here", "country": "string here" }
-
+PUT - /users/update/id,
+payload { "name", "email", "country" }
+#
 Delete existing user: 
 Delete
-DELETE - /delete/id
+DELETE - /users/delete/id
